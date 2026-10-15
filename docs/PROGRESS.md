@@ -111,7 +111,7 @@
 
 - Email: `admin@example.com`
 - Contraseña: `Admin1234!`
-- Tenants: `cande`, `el-rincon`
+- Tenants: `la-esquina` (Cande), `el-rincon`
 
 **Criterios de aceptación:**
 

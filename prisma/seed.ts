@@ -12,11 +12,11 @@ async function main() {
   const passwordHash = await hash("Admin1234!", 12);
 
   const tenantA = await prisma.tenant.upsert({
-    where: { slug: "cande" },
+    where: { slug: "la-esquina" },
     update: {},
     create: {
       name: "Cande",
-      slug: "cande",
+      slug: "la-esquina",
       status: "ACTIVE",
       settings: {
         create: {
