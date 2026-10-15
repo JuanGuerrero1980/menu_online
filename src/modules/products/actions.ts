@@ -22,13 +22,19 @@ export async function createProductAction(
 
   const file = formData.get("image") as File | null;
   if (file && file.size > 0) {
-    const url = await uploadProductImage(file);
-    await addProductImage(
-      tenantId,
-      product.id,
-      url,
-      (formData.get("altText") as string) || undefined
-    );
+    try {
+      const url = await uploadProductImage(file);
+      await addProductImage(
+        tenantId,
+        product.id,
+        url,
+        (formData.get("altText") as string) || undefined
+      );
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Error al subir la imagen";
+      throw new Error(`No se pudo subir la imagen: ${message}`);
+    }
   }
 
   return product;
@@ -48,13 +54,19 @@ export async function updateProductAction(
 
   const file = formData.get("image") as File | null;
   if (file && file.size > 0) {
-    const url = await uploadProductImage(file);
-    await addProductImage(
-      tenantId,
-      product.id,
-      url,
-      (formData.get("altText") as string) || undefined
-    );
+    try {
+      const url = await uploadProductImage(file);
+      await addProductImage(
+        tenantId,
+        product.id,
+        url,
+        (formData.get("altText") as string) || undefined
+      );
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Error al subir la imagen";
+      throw new Error(`No se pudo subir la imagen: ${message}`);
+    }
   }
 
   return product;

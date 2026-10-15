@@ -1,11 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { createProductAction } from "@/modules/products/actions";
 import { ProductStatus } from "@/generated/prisma/enums";
 
 export function ProductForm({ tenantId }: { tenantId: string }) {
   const [open, setOpen] = useState(false);
+  const [pending, startTransition] = useTransition();
+  const [error, setError] = useState<string | null>(null);
+
+  async function handleSubmit(formData: FormData) {
+    setError(null);
+    startTransition(async () => {
+      try {
+        await createProductAction(tenantId, formData);
+        setOpen(false);
+      } catch (err) {
+        const message = err instanceof Error ? err.message : "Error al guardar el producto";
+        setError(message);
+      }
+    });
+  }
 
   return (
     <div className="rounded-lg border border-border p-4">
@@ -18,13 +33,7 @@ export function ProductForm({ tenantId }: { tenantId: string }) {
           Nuevo producto
         </button>
       ) : (
-        <form
-          action={async (formData) => {
-            await createProductAction(tenantId, formData);
-            setOpen(false);
-          }}
-          className="space-y-4"
-        >
+        <form action={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="name" className="block text-sm font-medium">
               Nombre
@@ -101,12 +110,14 @@ export function ProductForm({ tenantId }: { tenantId: string }) {
               className="mt-1 block w-full rounded-md border border-border bg-background px-3 py-2 text-sm"
             />
           </div>
+          {error && <p className="text-sm text-red-600">{error}</p>}
           <div className="flex gap-2">
             <button
               type="submit"
-              className="rounded-md bg-foreground px-4 py-2 text-sm font-medium text-background"
+              disabled={pending}
+              className="rounded-md bg-foreground px-4 py-2 text-sm font-medium text-background disabled:opacity-50"
             >
-              Guardar
+              {pending ? "Guardando..." : "Guardar"}
             </button>
             <button
               type="button"
