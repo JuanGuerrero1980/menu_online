@@ -5,7 +5,7 @@ import {
   getPublicTenantBySlug,
   getPublicMenuBySlug,
 } from "@/modules/public/service";
-import { AddToCartButton } from "@/components/public-menu/add-to-cart-button";
+import { MenuItemQuantity } from "@/components/public-menu/menu-item-quantity";
 import { CartDrawer } from "@/components/public-menu/cart-drawer";
 import type { Metadata } from "next";
 
@@ -139,7 +139,7 @@ export default async function MenuPage({
                           >
                             {formatPrice(price, currency)}
                           </p>
-                          <AddToCartButton
+                          <MenuItemQuantity
                             menuItemId={item.id}
                             productId={product.id}
                             name={product.name}
