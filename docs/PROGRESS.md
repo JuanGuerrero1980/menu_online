@@ -121,9 +121,10 @@
 - [x] El servidor nunca usa `tenantId` enviado por el cliente para autorizar.
 - [x] Seeds crean datos de prueba aislados.
 - [x] `lint`, `typecheck` y `build` pasan.
-- [ ] Despliegue en Vercel verificado (pendiente de confirmación del build).
+- [x] Despliegue en Vercel verificado.
+- [x] Login funciona en producción con credenciales de prueba.
 
-**Estado:** Implementación completada; pendiente confirmación del despliegue en Vercel.
+**Estado:** Completada.
 
 ---
 
