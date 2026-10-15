@@ -41,7 +41,7 @@
 
 ## Vercel
 
-Producción actual: https://menuonline-nzi605ofu-juanjo-guerrero.vercel.app/
+Producción actual: https://menuonline-chi.vercel.app/
 
 1. Importar el repositorio de GitHub en Vercel.
 2. Configurar las variables de entorno del proyecto:
