@@ -11,9 +11,10 @@ const prisma = new PrismaClient({ adapter });
 async function main() {
   const passwordHash = await hash("Admin1234!", 12);
 
-  // First tenant
-  const tenantA = await prisma.tenant.create({
-    data: {
+  const tenantA = await prisma.tenant.upsert({
+    where: { slug: "la-esquina" },
+    update: {},
+    create: {
       name: "La Esquina",
       slug: "la-esquina",
       status: "ACTIVE",
@@ -27,9 +28,10 @@ async function main() {
     },
   });
 
-  // Second tenant (for cross-tenant isolation tests)
-  const tenantB = await prisma.tenant.create({
-    data: {
+  const tenantB = await prisma.tenant.upsert({
+    where: { slug: "el-rincon" },
+    update: {},
+    create: {
       name: "El Rincón",
       slug: "el-rincon",
       status: "ACTIVE",
@@ -43,27 +45,44 @@ async function main() {
     },
   });
 
-  const user = await prisma.user.create({
-    data: {
+  const user = await prisma.user.upsert({
+    where: { email: "admin@example.com" },
+    update: { passwordHash },
+    create: {
       name: "Administrador",
       email: "admin@example.com",
       passwordHash,
     },
   });
 
-  await prisma.tenantUser.createMany({
-    data: [
-      {
+  await prisma.tenantUser.upsert({
+    where: {
+      tenantId_userId: {
         tenantId: tenantA.id,
         userId: user.id,
-        role: "OWNER",
       },
-      {
+    },
+    update: {},
+    create: {
+      tenantId: tenantA.id,
+      userId: user.id,
+      role: "OWNER",
+    },
+  });
+
+  await prisma.tenantUser.upsert({
+    where: {
+      tenantId_userId: {
         tenantId: tenantB.id,
         userId: user.id,
-        role: "ADMIN",
       },
-    ],
+    },
+    update: {},
+    create: {
+      tenantId: tenantB.id,
+      userId: user.id,
+      role: "ADMIN",
+    },
   });
 
   console.log("Seed completado:");
