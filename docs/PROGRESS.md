@@ -72,7 +72,11 @@
 - [x] No hay secretos en el repositorio.
 - [x] La compilación y las comprobaciones pasan.
 
-**Nota sobre Vercel:** las credenciales ya fueron configuradas en Vercel por el usuario. El despliegue queda pendiente de confirmación/verificación.
+**Nota sobre Vercel:**
+
+- [x] Código pushado a `https://github.com/JuanGuerrero1980/menu_online.git`.
+- [x] Vercel está conectado al repositorio.
+- [ ] Confirmar URL del despliegue una vez que Vercel termine el build.
 
 **Estado:** Completada.
 
