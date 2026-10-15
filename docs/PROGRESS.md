@@ -10,7 +10,7 @@
 | Fase 1 — Fundación técnica | Completada | 2026-10-14 |
 | Fase 2 — Multitenancy y autenticación | Completada | 2026-10-15 |
 | Fase 3 — Administración de cartas y catálogo | Completada | 2026-10-15 |
-| Fase 4 — Carta pública | Pendiente | — |
+| Fase 4 — Carta pública | Completada | 2026-10-15 |
 | Fase 5 — Carrito y WhatsApp | Pendiente | — |
 | Fase 6 — Calidad y lanzamiento | Pendiente | — |
 
@@ -111,7 +111,7 @@
 
 - Email: `admin@example.com`
 - Contraseña: `Admin1234!`
-- Tenants: `la-esquina`, `el-rincon`
+- Tenants: `cande`, `el-rincon`
 
 **Criterios de aceptación:**
 
@@ -205,7 +205,33 @@
 
 **Objetivo:** Mostrar la carta pública del negocio con SEO y temas.
 
-**Estado:** Pendiente.
+**Estado:** Completada.
+
+**Tareas completadas:**
+
+- [x] Crear servicios públicos en `src/modules/public/service.ts`:
+  - `getPublicTenantBySlug`
+  - `getPublicMenusByTenantId`
+  - `getPublicMenuBySlug` (solo cartas `PUBLISHED`, productos activos y disponibles)
+- [x] Crear layout y rutas públicas bajo `src/app/(public)/[tenantSlug]/`:
+  - Página del negocio (`page.tsx`)
+  - Página de carta (`menu/[menuSlug]/page.tsx`)
+- [x] Mostrar nombre, logo, descripción y cartas publicadas del negocio.
+- [x] Mostrar categorías ordenadas con productos, imágenes, descripciones y precios.
+- [x] Aplicar tema básico desde `TenantSettings` (colores y tipografía).
+- [x] Implementar `generateMetadata` para SEO en ambas páginas.
+- [x] Agregar `src/app/robots.ts` para no indexar `/admin` y `/login`.
+- [x] Agregar enlace "Ver carta pública" en el panel de administración.
+- [x] Ejecutar `lint`, `typecheck` y `build` exitosamente.
+
+**Criterios de aceptación:**
+
+- [x] Las cartas publicadas se muestran correctamente.
+- [x] Las cartas en borrador no se muestran públicamente.
+- [x] El slug identifica al negocio correcto.
+- [x] Las páginas son accesibles directamente mediante URL.
+- [x] El contenido principal está disponible para indexación.
+- [x] No se exponen datos administrativos.
 
 ---
 

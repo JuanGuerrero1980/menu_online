@@ -39,8 +39,23 @@ export default async function AdminPage() {
           className="rounded-lg border border-border p-4 hover:bg-accent"
         >
           <h3 className="font-medium">Cartas</h3>
-          <p className="text-sm text-muted-foreground">Próximamente</p>
+          <p className="text-sm text-muted-foreground">
+            Crear y publicar cartas
+          </p>
         </Link>
+        {activeTenant && (
+          <a
+            href={`/${activeTenant.slug}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-lg border border-border p-4 hover:bg-accent"
+          >
+            <h3 className="font-medium">Ver carta pública</h3>
+            <p className="text-sm text-muted-foreground">
+              Abrir el sitio del negocio
+            </p>
+          </a>
+        )}
       </div>
     </div>
   );
