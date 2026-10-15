@@ -55,15 +55,31 @@ export function CartDrawer({ tenantSlug, menuSlug, currency }: CartDrawerProps) 
     window.location.href = result.whatsappUrl;
   }
 
+  if (items.length === 0 && !open) {
+    return null;
+  }
+
   return (
     <>
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        className="fixed bottom-4 right-4 z-50 rounded-full bg-foreground px-5 py-3 text-sm font-medium text-background shadow-lg"
-      >
-        Carrito ({itemCount})
-      </button>
+      <footer className="fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-white px-4 py-3 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+        <div className="mx-auto flex max-w-3xl items-center justify-between">
+          <div className="flex flex-col">
+            <span className="text-sm font-medium">
+              {itemCount} {itemCount === 1 ? "producto" : "productos"}
+            </span>
+            <span className="text-lg font-semibold">
+              {formatPrice(total, currency)}
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            className="rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background"
+          >
+            Ver pedido
+          </button>
+        </div>
+      </footer>
 
       {open && (
         <div className="fixed inset-0 z-50 flex justify-end bg-black/50">

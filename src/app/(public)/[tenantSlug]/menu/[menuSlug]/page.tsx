@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -7,6 +8,7 @@ import {
 } from "@/modules/public/service";
 import { MenuItemQuantity } from "@/components/public-menu/menu-item-quantity";
 import { CartDrawer } from "@/components/public-menu/cart-drawer";
+import { MenuPageSkeleton } from "@/components/public-menu/menu-page-skeleton";
 import type { Metadata } from "next";
 
 export const instant = false;
@@ -43,12 +45,13 @@ function formatPrice(price: number, currency: string) {
   }).format(price);
 }
 
-export default async function MenuPage({
-  params,
+async function MenuContent({
+  tenantSlug,
+  menuSlug,
 }: {
-  params: Promise<{ tenantSlug: string; menuSlug: string }>;
+  tenantSlug: string;
+  menuSlug: string;
 }) {
-  const { tenantSlug, menuSlug } = await params;
   const tenant = await getPublicTenantBySlug(tenantSlug);
 
   if (!tenant) {
@@ -66,7 +69,7 @@ export default async function MenuPage({
 
   return (
     <main
-      className="min-h-screen px-4 py-6"
+      className="min-h-screen px-4 py-6 pb-24"
       style={{
         fontFamily: settings?.fontFamily ?? "sans-serif",
         color: settings?.primaryColor ?? "#171717",
@@ -162,5 +165,19 @@ export default async function MenuPage({
         currency={currency}
       />
     </main>
+  );
+}
+
+export default async function MenuPage({
+  params,
+}: {
+  params: Promise<{ tenantSlug: string; menuSlug: string }>;
+}) {
+  const { tenantSlug, menuSlug } = await params;
+
+  return (
+    <Suspense fallback={<MenuPageSkeleton />}>
+      <MenuContent tenantSlug={tenantSlug} menuSlug={menuSlug} />
+    </Suspense>
   );
 }

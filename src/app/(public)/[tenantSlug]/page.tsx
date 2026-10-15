@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -5,6 +6,7 @@ import {
   getPublicTenantBySlug,
   getPublicMenusByTenantId,
 } from "@/modules/public/service";
+import { TenantPageSkeleton } from "@/components/public-menu/tenant-page-skeleton";
 import type { Metadata } from "next";
 
 export const instant = false;
@@ -31,13 +33,8 @@ export async function generateMetadata({
   };
 }
 
-export default async function TenantPage({
-  params,
-}: {
-  params: Promise<{ tenantSlug: string }>;
-}) {
-  const { tenantSlug } = await params;
-  const tenant = await getPublicTenantBySlug(tenantSlug);
+async function TenantContent({ slug }: { slug: string }) {
+  const tenant = await getPublicTenantBySlug(slug);
 
   if (!tenant) {
     notFound();
@@ -96,5 +93,19 @@ export default async function TenantPage({
         )}
       </div>
     </main>
+  );
+}
+
+export default async function TenantPage({
+  params,
+}: {
+  params: Promise<{ tenantSlug: string }>;
+}) {
+  const { tenantSlug } = await params;
+
+  return (
+    <Suspense fallback={<TenantPageSkeleton />}>
+      <TenantContent slug={tenantSlug} />
+    </Suspense>
   );
 }
