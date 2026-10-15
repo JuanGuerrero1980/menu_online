@@ -9,7 +9,7 @@
 | Fase 0 — Normalización del plan y documentación de seguimiento | Completada | 2026-10-14 |
 | Fase 1 — Fundación técnica | Completada | 2026-10-14 |
 | Fase 2 — Multitenancy y autenticación | Completada | 2026-10-15 |
-| Fase 3 — Administración de cartas y catálogo | En progreso (3a completada) | 2026-10-15 |
+| Fase 3 — Administración de cartas y catálogo | Completada | 2026-10-15 |
 | Fase 4 — Carta pública | Pendiente | — |
 | Fase 5 — Carrito y WhatsApp | Pendiente | — |
 | Fase 6 — Calidad y lanzamiento | Pendiente | — |
@@ -171,13 +171,33 @@
 - [x] Disponibilidad por ítem (`isAvailable`).
 - [x] Seed con carta "Carta principal" publicada.
 
-### Fase 3c — Imágenes con Cloudinary (pendiente)
+### Fase 3c — Imágenes con Cloudinary
 
-- [ ] Configurar Cloudinary.
-- [ ] Subida de imágenes en productos.
-- [ ] Guardar referencias en `ProductImage`.
+**Estado:** Completada.
 
-**Estado general:** 3a completada; 3b y 3c pendientes.
+**Tareas completadas:**
+
+- [x] Instalar `cloudinary` y configurar variables de entorno (`CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`).
+- [x] Crear abstracción de almacenamiento en `src/lib/storage/service.ts`.
+- [x] Crear helpers de Cloudinary en `src/lib/storage/cloudinary.ts`.
+- [x] Agregar `addProductImage` y `removeProductImage` en `src/modules/products/service.ts`.
+- [x] Crear server actions `createProductAction`, `updateProductAction` y `removeProductImageAction` en `src/modules/products/actions.ts`.
+- [x] Actualizar formulario de productos (`/admin/products`) para soportar imagen y alt text.
+- [x] Actualizar listado de productos para mostrar thumbnail.
+- [x] Actualizar editor de producto (`/admin/products/[id]`) para agregar/eliminar imágenes.
+- [x] Configurar `next.config.ts` con `images.remotePatterns` para `res.cloudinary.com`.
+- [x] Ejecutar `lint`, `typecheck` y `build` exitosamente.
+- [x] Commit y push a `main`; despliegue en Vercel verificado.
+
+**Criterios de aceptación:**
+
+- [x] Un admin puede subir una imagen al crear/editar un producto.
+- [x] Las imágenes se almacenan en Cloudinary y su URL se guarda en `ProductImage`.
+- [x] Un admin puede eliminar imágenes existentes.
+- [x] Las operaciones validan pertenencia al tenant server-side.
+- [x] `lint`, `typecheck` y `build` pasan.
+
+**Estado general:** Fase 3 completada.
 
 ---
 
