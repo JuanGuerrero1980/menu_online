@@ -1,6 +1,9 @@
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db/prisma";
 import { TenantStatus } from "@/generated/prisma/enums";
+import { hasTenantAccess } from "./access";
+
+export { hasTenantAccess };
 
 export async function getTenantBySlug(slug: string) {
   const tenant = await prisma.tenant.findUnique({
@@ -21,15 +24,6 @@ export async function requireAuth() {
     return null;
   }
   return session.user;
-}
-
-export function hasTenantAccess(
-  user: {
-    tenants: Array<{ tenantId: string; role: string }>;
-  },
-  tenantId: string
-) {
-  return user.tenants.some((t) => t.tenantId === tenantId);
 }
 
 export async function requireTenantAccess(tenantId: string) {

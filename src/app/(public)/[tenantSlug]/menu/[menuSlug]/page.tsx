@@ -9,6 +9,7 @@ import {
 import { MenuItemQuantity } from "@/components/public-menu/menu-item-quantity";
 import { CartDrawer } from "@/components/public-menu/cart-drawer";
 import { MenuPageSkeleton } from "@/components/public-menu/menu-page-skeleton";
+import { formatPrice } from "@/lib/format";
 import type { Metadata } from "next";
 
 export const instant = false;
@@ -38,12 +39,6 @@ export async function generateMetadata({
   };
 }
 
-function formatPrice(price: number, currency: string) {
-  return new Intl.NumberFormat("es-AR", {
-    style: "currency",
-    currency,
-  }).format(price);
-}
 
 async function MenuContent({
   tenantSlug,

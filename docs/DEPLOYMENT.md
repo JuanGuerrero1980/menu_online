@@ -49,7 +49,7 @@ Producción actual: https://menuonline-chi.vercel.app/
    - `DIRECT_URL`
    - `AUTH_SECRET`
    - `APP_URL`
-   - `STORAGE_PROVIDER`
+
    - `CLOUDINARY_CLOUD_NAME`
    - `CLOUDINARY_API_KEY`
    - `CLOUDINARY_API_SECRET`

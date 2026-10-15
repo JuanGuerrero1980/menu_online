@@ -6,6 +6,7 @@ import {
   MenuStatus,
   ProductStatus,
 } from "@/generated/prisma/enums";
+import { buildWhatsAppMessage, buildWhatsAppUrl } from "./format";
 
 interface CartInputItem {
   menuItemId: string;
@@ -71,8 +72,7 @@ export async function validateCartAndGenerateMessage(
     };
   }
 
-  const lines: string[] = [];
-  let total = 0;
+  const messageItems = [];
 
   for (const input of items) {
     const menuItem = menuItems.find((mi) => mi.id === input.menuItemId);
@@ -88,17 +88,13 @@ export async function validateCartAndGenerateMessage(
     }
 
     const price = Number(menuItem.priceOverride ?? menuItem.product.basePrice);
-    const lineTotal = price * input.quantity;
-    total += lineTotal;
 
-    const observationText = input.observation
-      ? ` (${input.observation})`
-      : "";
-    lines.push(
-      `${input.quantity} x ${menuItem.product.name}${observationText} — ${formatCurrency(
-        lineTotal
-      )}`
-    );
+    messageItems.push({
+      name: menuItem.product.name,
+      quantity: input.quantity,
+      price,
+      observation: input.observation,
+    });
   }
 
   const phone = tenant.settings?.whatsappPhone;
@@ -109,27 +105,8 @@ export async function validateCartAndGenerateMessage(
     };
   }
 
-  const message = [
-    "Hola, quiero realizar este pedido:",
-    "",
-    ...lines,
-    "",
-    `Total estimado: ${formatCurrency(total)}`,
-    "",
-    "¿Me confirman el pedido y el tiempo de demora?",
-  ].join("\n");
-
-  const cleanPhone = phone.replace(/\D/g, "");
-  const whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(
-    message
-  )}`;
+  const message = buildWhatsAppMessage(messageItems);
+  const whatsappUrl = buildWhatsAppUrl(phone, message);
 
   return { success: true, whatsappUrl };
-}
-
-function formatCurrency(amount: number) {
-  return new Intl.NumberFormat("es-AR", {
-    style: "currency",
-    currency: "ARS",
-  }).format(amount);
 }

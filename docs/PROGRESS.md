@@ -12,7 +12,7 @@
 | Fase 3 — Administración de cartas y catálogo | Completada | 2026-10-15 |
 | Fase 4 — Carta pública | Completada | 2026-10-15 |
 | Fase 5 — Carrito y WhatsApp | Completada | 2026-10-15 |
-| Fase 6 — Calidad y lanzamiento | Pendiente | — |
+| Fase 6 — Calidad y lanzamiento | Completada | 2026-10-15 |
 
 ---
 
@@ -271,3 +271,35 @@
 ---
 
 
+## Fase 6 — Calidad y lanzamiento
+
+**Objetivo:** Completar pruebas, revisar seguridad y lanzar el MVP.
+
+**Estado:** Completada.
+
+**Tareas completadas:**
+
+- [x] Configurar Vitest para tests unitarios e integración.
+- [x] Agregar script `npm run test`.
+- [x] Escribir tests para:
+  - Formato de precios (`src/lib/format.test.ts`).
+  - Generación de mensaje de WhatsApp (`src/modules/whatsapp/format.test.ts`).
+  - Construcción del enlace `wa.me`.
+  - Lógica del carrito (`src/modules/cart/context.test.tsx`).
+  - Autorización de tenant (`src/lib/tenant/access.test.ts`).
+- [x] Extraer función pura `hasTenantAccess` a `src/lib/tenant/access.ts` para facilitar tests.
+- [x] Extraer formato de moneda y generación de mensaje de WhatsApp a funciones puras testeables.
+- [x] Crear `docs/TESTING.md` con estrategia y comandos de pruebas.
+- [x] Crear/actualizar `docs/SECURITY.md` con reglas de autenticación, autorización, multitenancy y subida de archivos.
+- [x] Ejecutar `lint`, `typecheck`, `test` y `build` exitosamente.
+- [x] Commit y push a `main`.
+
+**Criterios de aceptación:**
+
+- [x] Tests críticos pasan.
+- [x] No hay errores de compilación.
+- [x] No hay secretos en el repositorio.
+- [x] La documentación de seguridad y testing está actualizada.
+- [x] La aplicación está desplegada en Vercel.
+
+**Estado general del MVP:** Completado.
