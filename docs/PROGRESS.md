@@ -157,12 +157,19 @@
 - [x] No es posible cruzar relaciones entre tenants.
 - [x] `lint`, `typecheck` y `build` pasan.
 
-### Fase 3b — Cartas y MenuItem (pendiente)
+### Fase 3b — Cartas y MenuItem
 
-- [ ] Modelos `MenuCategory` y `MenuItem`.
-- [ ] Servicios de cartas.
-- [ ] Editor de carta (`/admin/menus/[id]`).
-- [ ] Precios específicos por `MenuItem`.
+**Estado:** Completada.
+
+**Tareas completadas:**
+
+- [x] Modelos `MenuCategory` y `MenuItem` en el schema.
+- [x] Migración `menu_items` aplicada en Neon.
+- [x] Servicios de cartas en `src/modules/menus/service.ts`.
+- [x] Editor de carta en `/admin/menus/[id]`.
+- [x] Precios específicos por `MenuItem` (`priceOverride`).
+- [x] Disponibilidad por ítem (`isAvailable`).
+- [x] Seed con carta "Carta principal" publicada.
 
 ### Fase 3c — Imágenes con Cloudinary (pendiente)
 
