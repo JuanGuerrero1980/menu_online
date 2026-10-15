@@ -85,10 +85,73 @@ async function main() {
     },
   });
 
+  // Seed sample categories and products for tenant A
+  const categoryA = await prisma.category.upsert({
+    where: { id: "00000000-0000-0000-0000-000000000001" },
+    update: {},
+    create: {
+      id: "00000000-0000-0000-0000-000000000001",
+      tenantId: tenantA.id,
+      name: "Hamburguesas",
+      description: "Hamburguesas clásicas y especiales",
+    },
+  });
+
+  const categoryB = await prisma.category.upsert({
+    where: { id: "00000000-0000-0000-0000-000000000002" },
+    update: {},
+    create: {
+      id: "00000000-0000-0000-0000-000000000002",
+      tenantId: tenantA.id,
+      name: "Bebidas",
+      description: "Gaseosas, aguas y cervezas",
+    },
+  });
+
+  await prisma.product.upsert({
+    where: { id: "00000000-0000-0000-0000-000000000003" },
+    update: {},
+    create: {
+      id: "00000000-0000-0000-0000-000000000003",
+      tenantId: tenantA.id,
+      name: "Hamburguesa clásica",
+      description: "Carne, lechuga, tomate y queso",
+      basePrice: 18000,
+      status: "ACTIVE",
+    },
+  });
+
+  await prisma.product.upsert({
+    where: { id: "00000000-0000-0000-0000-000000000004" },
+    update: {},
+    create: {
+      id: "00000000-0000-0000-0000-000000000004",
+      tenantId: tenantA.id,
+      name: "Papas fritas",
+      description: "Porción individual",
+      basePrice: 4000,
+      status: "ACTIVE",
+    },
+  });
+
+  await prisma.product.upsert({
+    where: { id: "00000000-0000-0000-0000-000000000005" },
+    update: {},
+    create: {
+      id: "00000000-0000-0000-0000-000000000005",
+      tenantId: tenantA.id,
+      name: "Gaseosa",
+      description: "500ml",
+      basePrice: 2500,
+      status: "ACTIVE",
+    },
+  });
+
   console.log("Seed completado:");
   console.log(`- Tenant A: ${tenantA.name} (${tenantA.slug})`);
   console.log(`- Tenant B: ${tenantB.name} (${tenantB.slug})`);
   console.log(`- Usuario: ${user.email} / Admin1234!`);
+  console.log(`- Categorías: ${categoryA.name}, ${categoryB.name}`);
 }
 
 main()
