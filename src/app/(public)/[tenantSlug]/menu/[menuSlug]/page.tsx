@@ -5,6 +5,8 @@ import {
   getPublicTenantBySlug,
   getPublicMenuBySlug,
 } from "@/modules/public/service";
+import { AddToCartButton } from "@/components/public-menu/add-to-cart-button";
+import { CartDrawer } from "@/components/public-menu/cart-drawer";
 import type { Metadata } from "next";
 
 export const instant = false;
@@ -130,12 +132,20 @@ export default async function MenuPage({
                             </p>
                           )}
                         </div>
-                        <p
-                          className="mt-2 font-semibold"
-                          style={{ color: settings?.primaryColor ?? "#171717" }}
-                        >
-                          {formatPrice(price, currency)}
-                        </p>
+                        <div className="mt-2 flex items-center justify-between">
+                          <p
+                            className="font-semibold"
+                            style={{ color: settings?.primaryColor ?? "#171717" }}
+                          >
+                            {formatPrice(price, currency)}
+                          </p>
+                          <AddToCartButton
+                            menuItemId={item.id}
+                            productId={product.id}
+                            name={product.name}
+                            price={price}
+                          />
+                        </div>
                       </div>
                     </div>
                   );
@@ -145,6 +155,12 @@ export default async function MenuPage({
           ))}
         </div>
       </div>
+
+      <CartDrawer
+        tenantSlug={tenant.slug}
+        menuSlug={menu.slug}
+        currency={currency}
+      />
     </main>
   );
 }

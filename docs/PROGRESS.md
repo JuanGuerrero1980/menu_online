@@ -11,7 +11,7 @@
 | Fase 2 — Multitenancy y autenticación | Completada | 2026-10-15 |
 | Fase 3 — Administración de cartas y catálogo | Completada | 2026-10-15 |
 | Fase 4 — Carta pública | Completada | 2026-10-15 |
-| Fase 5 — Carrito y WhatsApp | Pendiente | — |
+| Fase 5 — Carrito y WhatsApp | Completada | 2026-10-15 |
 | Fase 6 — Calidad y lanzamiento | Pendiente | — |
 
 ---
@@ -239,12 +239,35 @@
 
 **Objetivo:** Permitir armar un pedido y enviarlo por WhatsApp con precios validados.
 
-**Estado:** Pendiente.
+**Estado:** Completada.
+
+**Tareas completadas:**
+
+- [x] Crear tipos del carrito en `src/modules/cart/types.ts`.
+- [x] Crear contexto del carrito en `src/modules/cart/context.tsx` (React Context + `useState`):
+  - Agregar, eliminar y actualizar cantidades.
+  - Agregar observaciones por producto.
+  - Calcular total y cantidad de ítems.
+- [x] Integrar `CartProvider` en el layout de rutas públicas.
+- [x] Crear componente `AddToCartButton` en `src/components/public-menu/add-to-cart-button.tsx`.
+- [x] Crear componente `CartDrawer` en `src/components/public-menu/cart-drawer.tsx` con listado, cantidades, observaciones y total.
+- [x] Actualizar página de carta pública para mostrar botón "Agregar" en cada producto y el carrito flotante.
+- [x] Crear server action `validateCartAndGenerateMessage` en `src/modules/whatsapp/actions.ts`:
+  - Verificar negocio activo, carta publicada y productos disponibles.
+  - Validar que los precios coincidan con la configuración actual.
+  - Generar mensaje de WhatsApp con cantidades, precios y observaciones.
+  - Crear enlace `https://wa.me/{telefono}?text={mensaje}`.
+- [x] Ejecutar `lint`, `typecheck` y `build` exitosamente.
+
+**Criterios de aceptación:**
+
+- [x] El total corresponde a los productos seleccionados.
+- [x] Los precios se validan antes de generar el mensaje.
+- [x] Los productos no disponibles no pueden agregarse (no se muestran) ni enviarse.
+- [x] El mensaje contiene cantidades, precios y observaciones correctos.
+- [x] El enlace abre WhatsApp con el número del negocio.
+- [x] No se afirma que el pedido quedó confirmado.
 
 ---
 
-## Fase 6 — Calidad y lanzamiento
 
-**Objetivo:** Completar pruebas, revisar seguridad y lanzar el MVP.
-
-**Estado:** Pendiente.
