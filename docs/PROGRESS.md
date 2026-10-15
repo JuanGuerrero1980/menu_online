@@ -75,6 +75,7 @@
 **Nota sobre Vercel:**
 
 - [x] Código pushado a `https://github.com/JuanGuerrero1980/menu_online.git`.
+- [x] Repositorio cambiado a público para compatibilidad con el plan Hobby de Vercel.
 - [x] Vercel está conectado al repositorio.
 - [ ] Confirmar URL del despliegue una vez que Vercel termine el build.
 
