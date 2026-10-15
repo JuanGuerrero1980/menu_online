@@ -54,7 +54,7 @@ export function CartDrawer({ tenantSlug, menuSlug, currency }: CartDrawerProps) 
 
   return (
     <>
-      <footer className="fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-white px-4 py-3 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+      <footer className="fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-card px-4 py-3 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
         <div className="mx-auto flex max-w-3xl items-center justify-between">
           <div className="flex flex-col">
             <span className="text-sm font-medium">
@@ -76,7 +76,7 @@ export function CartDrawer({ tenantSlug, menuSlug, currency }: CartDrawerProps) 
 
       {open && (
         <div className="fixed inset-0 z-50 flex justify-end bg-black/50">
-          <div className="flex h-full w-full max-w-md flex-col bg-white p-6 shadow-xl">
+          <div className="flex h-full w-full max-w-md flex-col bg-card p-6 shadow-xl">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold">Tu pedido</h2>
               <button

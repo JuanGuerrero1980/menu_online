@@ -79,7 +79,7 @@ async function TenantContent({ slug }: { slug: string }) {
               <Link
                 key={menu.id}
                 href={`/${tenant.slug}/menu/${menu.slug}`}
-                className="rounded-xl border border-border bg-white p-6 shadow-sm transition hover:shadow-md"
+                className="rounded-xl border border-border bg-card p-6 shadow-sm transition hover:shadow-md"
               >
                 <h2 className="text-xl font-semibold">{menu.name}</h2>
                 {menu.description && (

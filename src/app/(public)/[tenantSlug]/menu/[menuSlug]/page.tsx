@@ -110,7 +110,7 @@ async function MenuContent({
                   return (
                     <div
                       key={item.id}
-                      className="flex gap-4 rounded-xl border border-border bg-white p-4 shadow-sm"
+                      className="flex gap-4 rounded-xl border border-border bg-card p-4 shadow-sm"
                     >
                       {image && (
                         <Image

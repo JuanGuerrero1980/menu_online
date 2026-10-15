@@ -69,8 +69,8 @@ export default async function ProductsPage() {
                   <span
                     className={`rounded-full px-2 py-1 text-xs ${
                       product.status === "ACTIVE"
-                        ? "bg-green-100 text-green-800"
-                        : "bg-gray-100 text-gray-800"
+                        ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100"
+                        : "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100"
                     }`}
                   >
                     {product.status === "ACTIVE" ? "Activo" : "Archivado"}

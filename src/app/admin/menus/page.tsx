@@ -71,9 +71,9 @@ export default async function MenusPage() {
 function MenuStatusBadge({ status }: { status: string }) {
   const styles =
     status === "PUBLISHED"
-      ? "bg-green-100 text-green-800"
+      ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100"
       : status === "ARCHIVED"
-        ? "bg-gray-100 text-gray-800"
+        ? "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100"
         : "bg-yellow-100 text-yellow-800";
 
   const label =

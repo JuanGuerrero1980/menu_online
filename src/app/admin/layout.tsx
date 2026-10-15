@@ -2,6 +2,7 @@ import Link from "next/link";
 import { connection } from "next/server";
 import { requireAuth } from "@/lib/tenant/tenant";
 import { redirect } from "next/navigation";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export const instant = false;
 
@@ -30,12 +31,17 @@ export default async function AdminLayout({
     <div className="flex min-h-screen flex-col">
       <header className="border-b border-border px-6 py-4">
         <div className="flex items-center justify-between">
-          <h1 className="text-lg font-semibold">Resto Menu Online</h1>
-          <span className="text-sm text-muted-foreground">
-            {activeTenant.name}
-          </span>
+          <div>
+            <div className="flex items-center gap-3">
+              <h1 className="text-lg font-semibold">Resto Menu Online</h1>
+              <span className="text-sm text-muted-foreground">
+                {activeTenant.name}
+              </span>
+            </div>
+            <p className="text-sm text-muted-foreground">{user.email}</p>
+          </div>
+          <ThemeToggle />
         </div>
-        <p className="text-sm text-muted-foreground">{user.email}</p>
       </header>
       <div className="flex flex-1">
         <aside className="w-64 border-r border-border px-4 py-6">
