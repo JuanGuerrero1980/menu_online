@@ -108,7 +108,7 @@ async function main() {
     },
   });
 
-  await prisma.product.upsert({
+  const productA = await prisma.product.upsert({
     where: { id: "00000000-0000-0000-0000-000000000003" },
     update: {},
     create: {
@@ -121,7 +121,7 @@ async function main() {
     },
   });
 
-  await prisma.product.upsert({
+  const productB = await prisma.product.upsert({
     where: { id: "00000000-0000-0000-0000-000000000004" },
     update: {},
     create: {
@@ -134,7 +134,7 @@ async function main() {
     },
   });
 
-  await prisma.product.upsert({
+  const productC = await prisma.product.upsert({
     where: { id: "00000000-0000-0000-0000-000000000005" },
     update: {},
     create: {
@@ -147,11 +147,81 @@ async function main() {
     },
   });
 
+  // Seed sample menu for tenant A
+  const menu = await prisma.menu.upsert({
+    where: { id: "00000000-0000-0000-0000-000000000006" },
+    update: {},
+    create: {
+      id: "00000000-0000-0000-0000-000000000006",
+      tenantId: tenantA.id,
+      name: "Carta principal",
+      slug: "principal",
+      description: "Nuestra carta principal",
+      status: "PUBLISHED",
+    },
+  });
+
+  const menuCategoryA = await prisma.menuCategory.upsert({
+    where: { id: "00000000-0000-0000-0000-000000000007" },
+    update: {},
+    create: {
+      id: "00000000-0000-0000-0000-000000000007",
+      menuId: menu.id,
+      categoryId: categoryA.id,
+      sortOrder: 1,
+    },
+  });
+
+  const menuCategoryB = await prisma.menuCategory.upsert({
+    where: { id: "00000000-0000-0000-0000-000000000008" },
+    update: {},
+    create: {
+      id: "00000000-0000-0000-0000-000000000008",
+      menuId: menu.id,
+      categoryId: categoryB.id,
+      sortOrder: 2,
+    },
+  });
+
+  await prisma.menuItem.upsert({
+    where: { id: "00000000-0000-0000-0000-000000000009" },
+    update: {},
+    create: {
+      id: "00000000-0000-0000-0000-000000000009",
+      menuCategoryId: menuCategoryA.id,
+      productId: productA.id,
+      isAvailable: true,
+    },
+  });
+
+  await prisma.menuItem.upsert({
+    where: { id: "00000000-0000-0000-0000-000000000010" },
+    update: {},
+    create: {
+      id: "00000000-0000-0000-0000-000000000010",
+      menuCategoryId: menuCategoryA.id,
+      productId: productB.id,
+      isAvailable: true,
+    },
+  });
+
+  await prisma.menuItem.upsert({
+    where: { id: "00000000-0000-0000-0000-000000000011" },
+    update: {},
+    create: {
+      id: "00000000-0000-0000-0000-000000000011",
+      menuCategoryId: menuCategoryB.id,
+      productId: productC.id,
+      isAvailable: true,
+    },
+  });
+
   console.log("Seed completado:");
   console.log(`- Tenant A: ${tenantA.name} (${tenantA.slug})`);
   console.log(`- Tenant B: ${tenantB.name} (${tenantB.slug})`);
   console.log(`- Usuario: ${user.email} / Admin1234!`);
   console.log(`- Categorías: ${categoryA.name}, ${categoryB.name}`);
+  console.log(`- Carta: ${menu.name}`);
 }
 
 main()
