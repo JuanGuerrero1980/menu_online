@@ -106,3 +106,40 @@ export async function archiveProduct(tenantId: string, productId: string) {
     data: { status: ProductStatus.ARCHIVED },
   });
 }
+
+export async function addProductImage(
+  tenantId: string,
+  productId: string,
+  imageUrl: string,
+  altText?: string
+) {
+  const user = await requireTenantAccess(tenantId);
+  if (!user) throw new Error("No autorizado");
+
+  const product = await prisma.product.findFirst({
+    where: { id: productId, tenantId },
+  });
+  if (!product) throw new Error("Producto no encontrado");
+
+  return prisma.productImage.create({
+    data: {
+      tenantId,
+      productId,
+      url: imageUrl,
+      altText,
+    },
+  });
+}
+
+export async function removeProductImage(tenantId: string, imageId: string) {
+  const user = await requireTenantAccess(tenantId);
+  if (!user) throw new Error("No autorizado");
+
+  const image = await prisma.productImage.findFirst({
+    where: { id: imageId, tenantId },
+  });
+  if (!image) throw new Error("Imagen no encontrada");
+
+  await prisma.productImage.delete({ where: { id: imageId } });
+  return image;
+}

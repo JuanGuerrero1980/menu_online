@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { createProduct } from "@/modules/products/service";
+import { createProductAction } from "@/modules/products/actions";
 import { ProductStatus } from "@/generated/prisma/enums";
 
 export function ProductForm({ tenantId }: { tenantId: string }) {
@@ -20,12 +20,7 @@ export function ProductForm({ tenantId }: { tenantId: string }) {
       ) : (
         <form
           action={async (formData) => {
-            await createProduct(tenantId, {
-              name: formData.get("name") as string,
-              description: (formData.get("description") as string) || undefined,
-              basePrice: Number(formData.get("basePrice")),
-              status: formData.get("status") as ProductStatus,
-            });
+            await createProductAction(tenantId, formData);
             setOpen(false);
           }}
           className="space-y-4"
@@ -82,6 +77,29 @@ export function ProductForm({ tenantId }: { tenantId: string }) {
                 <option value={ProductStatus.ARCHIVED}>Archivado</option>
               </select>
             </div>
+          </div>
+          <div>
+            <label htmlFor="image" className="block text-sm font-medium">
+              Imagen
+            </label>
+            <input
+              id="image"
+              name="image"
+              type="file"
+              accept="image/*"
+              className="mt-1 block w-full text-sm"
+            />
+          </div>
+          <div>
+            <label htmlFor="altText" className="block text-sm font-medium">
+              Texto alternativo
+            </label>
+            <input
+              id="altText"
+              name="altText"
+              type="text"
+              className="mt-1 block w-full rounded-md border border-border bg-background px-3 py-2 text-sm"
+            />
           </div>
           <div className="flex gap-2">
             <button

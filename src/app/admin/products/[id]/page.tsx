@@ -1,6 +1,11 @@
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { requireAuth } from "@/lib/tenant/tenant";
-import { getProduct, updateProduct } from "@/modules/products/service";
+import { getProduct } from "@/modules/products/service";
+import {
+  updateProductAction,
+  removeProductImageAction,
+} from "@/modules/products/actions";
 import { ProductStatus } from "@/generated/prisma/enums";
 
 export const instant = false;
@@ -29,12 +34,7 @@ export default async function EditProductPage({
       <form
         action={async (formData) => {
           "use server";
-          await updateProduct(activeTenant.tenantId, id, {
-            name: formData.get("name") as string,
-            description: (formData.get("description") as string) || undefined,
-            basePrice: Number(formData.get("basePrice")),
-            status: formData.get("status") as ProductStatus,
-          });
+          await updateProductAction(activeTenant.tenantId, id, formData);
         }}
         className="space-y-4"
       >
@@ -94,6 +94,29 @@ export default async function EditProductPage({
             </select>
           </div>
         </div>
+        <div>
+          <label htmlFor="image" className="block text-sm font-medium">
+            Nueva imagen
+          </label>
+          <input
+            id="image"
+            name="image"
+            type="file"
+            accept="image/*"
+            className="mt-1 block w-full text-sm"
+          />
+        </div>
+        <div>
+          <label htmlFor="altText" className="block text-sm font-medium">
+            Texto alternativo
+          </label>
+          <input
+            id="altText"
+            name="altText"
+            type="text"
+            className="mt-1 block w-full rounded-md border border-border bg-background px-3 py-2 text-sm"
+          />
+        </div>
         <button
           type="submit"
           className="rounded-md bg-foreground px-4 py-2 text-sm font-medium text-background"
@@ -101,6 +124,41 @@ export default async function EditProductPage({
           Guardar cambios
         </button>
       </form>
+
+      {product.images.length > 0 && (
+        <div className="space-y-3">
+          <h3 className="text-lg font-medium">Imágenes actuales</h3>
+          <div className="flex flex-wrap gap-4">
+            {product.images.map((image) => (
+              <div key={image.id} className="space-y-2">
+                <Image
+                  src={image.url}
+                  alt={image.altText ?? product.name}
+                  width={120}
+                  height={120}
+                  className="rounded-md object-cover"
+                />
+                <form
+                  action={async () => {
+                    "use server";
+                    await removeProductImageAction(
+                      activeTenant.tenantId,
+                      image.id
+                    );
+                  }}
+                >
+                  <button
+                    type="submit"
+                    className="w-full rounded-md border border-red-200 px-2 py-1 text-xs text-red-600 hover:bg-red-50"
+                  >
+                    Eliminar
+                  </button>
+                </form>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

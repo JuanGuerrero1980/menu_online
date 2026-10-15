@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { requireAuth } from "@/lib/tenant/tenant";
 import { listProducts, archiveProduct } from "@/modules/products/service";
@@ -27,6 +28,7 @@ export default async function ProductsPage() {
         <table className="w-full text-left text-sm">
           <thead className="border-b border-border bg-muted/50">
             <tr>
+              <th className="px-4 py-3 font-medium">Imagen</th>
               <th className="px-4 py-3 font-medium">Nombre</th>
               <th className="px-4 py-3 font-medium">Precio base</th>
               <th className="px-4 py-3 font-medium">Estado</th>
@@ -37,7 +39,7 @@ export default async function ProductsPage() {
             {products.length === 0 && (
               <tr>
                 <td
-                  colSpan={4}
+                  colSpan={5}
                   className="px-4 py-6 text-center text-muted-foreground"
                 >
                   No hay productos todavía.
@@ -46,6 +48,19 @@ export default async function ProductsPage() {
             )}
             {products.map((product) => (
               <tr key={product.id} className="border-b border-border last:border-0">
+                <td className="px-4 py-3">
+                  {product.images[0] ? (
+                    <Image
+                      src={product.images[0].url}
+                      alt={product.images[0].altText ?? product.name}
+                      width={48}
+                      height={48}
+                      className="rounded-md object-cover"
+                    />
+                  ) : (
+                    <span className="text-muted-foreground">—</span>
+                  )}
+                </td>
                 <td className="px-4 py-3">{product.name}</td>
                 <td className="px-4 py-3">
                   ${Number(product.basePrice).toFixed(2)}
