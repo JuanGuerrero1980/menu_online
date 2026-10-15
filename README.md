@@ -1,36 +1,93 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Resto Menu Online
 
-## Getting Started
+SaaS multitenant de cartas digitales gastronómicas con pedidos por WhatsApp.
 
-First, run the development server:
+## Stack
+
+- Next.js 16 (App Router)
+- React 19
+- TypeScript (modo estricto)
+- Tailwind CSS 4
+- Prisma 7 + PostgreSQL (Neon)
+- Auth.js (próximamente)
+- Vercel
+
+## Requisitos
+
+- Node.js LTS (>= 20)
+- npm
+- Cuenta en [Neon](https://neon.tech) (base de datos)
+- Cuenta en [Vercel](https://vercel.com) (despliegue)
+
+## Instalación local
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Copiar variables de entorno y completar los valores:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+cp .env.example .env
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Generar el cliente de Prisma:
 
-## Learn More
+```bash
+npx prisma generate
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Comandos
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run dev          # Servidor de desarrollo con Turbopack
+npm run build        # Build de producción
+npm run start        # Servidor de producción
+npm run lint         # ESLint
+npm run typecheck    # TypeScript sin emitir
+npx prisma generate  # Regenerar cliente de Prisma
+npx prisma migrate dev --name <nombre>  # Crear/aplicar migración
+npx prisma studio    # Explorar la base de datos
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Orden recomendado de verificación:
 
-## Deploy on Vercel
+```bash
+npm run lint && npm run typecheck && npm run build
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Variables de entorno
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Ver `.env.example`. Se necesitan como mínimo:
+
+- `DATABASE_URL`: URL con pooling de Neon para la aplicación.
+- `DIRECT_URL`: URL directa de Neon para migraciones de Prisma.
+- `AUTH_SECRET`: secreto para Auth.js.
+- `APP_URL`: URL pública de la aplicación.
+
+## Estructura
+
+```text
+src/
+├── app/            # Rutas y páginas (App Router)
+├── components/     # Componentes reutilizables
+├── lib/            # Utilidades, db, auth, storage, tenant
+├── modules/        # Reglas de negocio (futuro)
+prisma/
+├── schema.prisma   # Esquema de datos
+└── migrations/     # Migraciones versionadas
+```
+
+## Documentación
+
+- `docs/IMPLEMENTATION_PLAN.md`: plan maestro.
+- `docs/PROGRESS.md`: estado de las fases.
+- `docs/DECISIONS.md`: decisiones arquitectónicas.
+- `docs/DEPLOYMENT.md`: guía de despliegue.
+- `docs/SECURITY.md`: reglas de seguridad.
+- `docs/TESTING.md`: estrategia de pruebas.
+- `docs/DATABASE.md`: modelo de datos.
+
+## Estado actual
+
+Fase 1 — Fundación técnica completada. Ver `docs/PROGRESS.md`.
