@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { updateProductAction, removeProductImageAction } from "@/modules/products/actions";
 import { ProductStatus } from "@/generated/prisma/enums";
@@ -19,14 +20,19 @@ interface ProductEditFormProps {
 }
 
 export function ProductEditForm({ tenantId, productId, product }: ProductEditFormProps) {
+  const router = useRouter();
   const [pending, startTransition] = useTransition();
+  const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   async function handleSubmit(formData: FormData) {
     setError(null);
+    setSuccess(false);
     startTransition(async () => {
       try {
         await updateProductAction(tenantId, productId, formData);
+        setSuccess(true);
+        router.refresh();
       } catch (err) {
         const message =
           err instanceof Error ? err.message : "Error al guardar el producto";
@@ -39,6 +45,7 @@ export function ProductEditForm({ tenantId, productId, product }: ProductEditFor
     startTransition(async () => {
       try {
         await removeProductImageAction(tenantId, imageId);
+        router.refresh();
       } catch (err) {
         const message =
           err instanceof Error ? err.message : "Error al eliminar la imagen";
@@ -130,6 +137,9 @@ export function ProductEditForm({ tenantId, productId, product }: ProductEditFor
           />
         </div>
         {error && <p className="text-sm text-red-600">{error}</p>}
+        {success && (
+          <p className="text-sm text-green-600">Producto guardado correctamente.</p>
+        )}
         <button
           type="submit"
           disabled={pending}

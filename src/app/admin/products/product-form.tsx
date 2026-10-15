@@ -1,20 +1,26 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { createProductAction } from "@/modules/products/actions";
 import { ProductStatus } from "@/generated/prisma/enums";
 
 export function ProductForm({ tenantId }: { tenantId: string }) {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [pending, startTransition] = useTransition();
+  const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   async function handleSubmit(formData: FormData) {
     setError(null);
+    setSuccess(false);
     startTransition(async () => {
       try {
         await createProductAction(tenantId, formData);
+        setSuccess(true);
         setOpen(false);
+        router.refresh();
       } catch (err) {
         const message = err instanceof Error ? err.message : "Error al guardar el producto";
         setError(message);
@@ -111,6 +117,9 @@ export function ProductForm({ tenantId }: { tenantId: string }) {
             />
           </div>
           {error && <p className="text-sm text-red-600">{error}</p>}
+          {success && (
+            <p className="text-sm text-green-600">Producto creado correctamente.</p>
+          )}
           <div className="flex gap-2">
             <button
               type="submit"

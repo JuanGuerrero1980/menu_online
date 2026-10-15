@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { uploadProductImage, removeStoredImage } from "@/lib/storage/service";
 import {
   createProduct,
@@ -37,6 +38,7 @@ export async function createProductAction(
     }
   }
 
+  revalidatePath("/admin/products");
   return product;
 }
 
@@ -69,6 +71,8 @@ export async function updateProductAction(
     }
   }
 
+  revalidatePath(`/admin/products/${productId}`);
+  revalidatePath("/admin/products");
   return product;
 }
 
