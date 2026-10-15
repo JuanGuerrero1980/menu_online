@@ -9,7 +9,7 @@
 | Fase 0 — Normalización del plan y documentación de seguimiento | Completada | 2026-10-14 |
 | Fase 1 — Fundación técnica | Completada | 2026-10-14 |
 | Fase 2 — Multitenancy y autenticación | Completada | 2026-10-15 |
-| Fase 3 — Administración de cartas y catálogo | Pendiente | — |
+| Fase 3 — Administración de cartas y catálogo | En progreso (3a completada) | 2026-10-15 |
 | Fase 4 — Carta pública | Pendiente | — |
 | Fase 5 — Carrito y WhatsApp | Pendiente | — |
 | Fase 6 — Calidad y lanzamiento | Pendiente | — |
@@ -132,7 +132,45 @@
 
 **Objetivo:** Construir la administración de productos, categorías, cartas e ítems.
 
-**Estado:** Pendiente.
+### Fase 3a — Productos y categorías
+
+**Estado:** Completada.
+
+**Tareas completadas:**
+
+- [x] Actualizar `prisma/schema.prisma` con modelos `Product`, `Category` y `ProductImage`.
+- [x] Crear migración `products_categories`.
+- [x] Crear servicios `src/modules/products/service.ts` y `src/modules/categories/service.ts`.
+- [x] Crear páginas admin:
+  - `/admin/products`
+  - `/admin/products/[id]`
+  - `/admin/categories`
+  - `/admin/menus` (placeholder)
+- [x] Actualizar layout de admin con navegación y tenant activo.
+- [x] Actualizar seed con categorías y productos de ejemplo.
+
+**Criterios de aceptación:**
+
+- [x] Un admin puede crear, editar y archivar productos.
+- [x] Un admin puede crear y eliminar categorías.
+- [x] Las operaciones validan pertenencia al tenant server-side.
+- [x] No es posible cruzar relaciones entre tenants.
+- [x] `lint`, `typecheck` y `build` pasan.
+
+### Fase 3b — Cartas y MenuItem (pendiente)
+
+- [ ] Modelos `MenuCategory` y `MenuItem`.
+- [ ] Servicios de cartas.
+- [ ] Editor de carta (`/admin/menus/[id]`).
+- [ ] Precios específicos por `MenuItem`.
+
+### Fase 3c — Imágenes con Cloudinary (pendiente)
+
+- [ ] Configurar Cloudinary.
+- [ ] Subida de imágenes en productos.
+- [ ] Guardar referencias en `ProductImage`.
+
+**Estado general:** 3a completada; 3b y 3c pendientes.
 
 ---
 
