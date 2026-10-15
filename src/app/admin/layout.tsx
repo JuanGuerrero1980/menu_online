@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { connection } from "next/server";
 import { requireAuth } from "@/lib/tenant/tenant";
 import { redirect } from "next/navigation";
 
@@ -9,6 +10,8 @@ export default async function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
+  await connection();
+
   const user = await requireAuth();
   if (!user) {
     redirect("/login");
