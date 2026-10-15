@@ -7,4 +7,112 @@ datasource db {
   provider = "postgresql"
 }
 
-// Models will be added in Phase 2 (multitenancy and authentication).
+model Tenant {
+  id        String   @id @default(uuid()) @db.Uuid
+  name      String
+  slug      String   @unique
+  status    TenantStatus @default(ACTIVE)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  settings TenantSettings?
+  users    TenantUser[]
+  menus    Menu[]
+  categories Category[]
+  products Product[]
+
+  @@index([slug])
+  @@index([status])
+}
+
+model User {
+  id           String   @id @default(uuid()) @db.Uuid
+  name         String
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  tenants TenantUser[]
+}
+
+model TenantUser {
+  id        String   @id @default(uuid()) @db.Uuid
+  tenantId  String   @db.Uuid
+  userId    String   @db.Uuid
+  role      TenantRole @default(ADMIN)
+  createdAt DateTime @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, userId])
+  @@index([userId])
+}
+
+model TenantSettings {
+  id             String   @id @default(uuid()) @db.Uuid
+  tenantId       String   @unique @db.Uuid
+  whatsappPhone  String?
+  logoUrl        String?
+  primaryColor   String   @default("#171717")
+  secondaryColor String   @default("#737373")
+  fontFamily     String   @default("sans-serif")
+  currency       String   @default("ARS")
+  timezone       String   @default("America/Argentina/Cordoba")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+}
+
+enum TenantStatus {
+  ACTIVE
+  SUSPENDED
+}
+
+enum TenantRole {
+  OWNER
+  ADMIN
+}
+
+// Placeholder models for upcoming phases to keep schema evolution clean.
+model Menu {
+  id          String   @id @default(uuid()) @db.Uuid
+  tenantId    String   @db.Uuid
+  name        String
+  slug        String
+  description String?
+  status      String   @default("DRAFT")
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, slug])
+}
+
+model Category {
+  id          String   @id @default(uuid()) @db.Uuid
+  tenantId    String   @db.Uuid
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+}
+
+model Product {
+  id          String   @id @default(uuid()) @db.Uuid
+  tenantId    String   @db.Uuid
+  name        String
+  description String?
+  basePrice   Decimal  @db.Decimal(12, 2)
+  status      String   @default("ACTIVE")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+}
