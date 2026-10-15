@@ -1,8 +1,12 @@
 import Link from "next/link";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function Home() {
   return (
     <main className="flex flex-1 flex-col items-center justify-center px-6 py-24 text-center">
+      <div className="absolute right-4 top-4">
+        <ThemeToggle />
+      </div>
       <h1 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
         Resto Menu Online
       </h1>
